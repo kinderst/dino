@@ -222,13 +222,9 @@ def train_dino(args):
                 "facebookresearch/dino:main", "dino_resnet50", pretrained=True
             )
             student.fc = nn.Linear(2048, 1000, bias=True)
-            print('wtf')
-            print(student)
         else:
             student = torchvision_models.__dict__[args.arch]()
             teacher = torchvision_models.__dict__[args.arch]()
-            print('also wtf')
-            print(student)
         embed_dim = student.fc.weight.shape[1]
     else:
         print(f"Unknow architecture: {args.arch}")
