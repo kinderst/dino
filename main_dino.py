@@ -193,8 +193,9 @@ def train_dino(args):
     # if the network is a Vision Transformer (i.e. vit_tiny, vit_small, vit_base)
     if args.arch in vits.__dict__.keys():
         if use_pretrained_dino:
-            student = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True, patch_size=args.patch_size, drop_path_rate=args.drop_path_rate)
-            teacher = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True, patch_size=args.patch_size)
+            student = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True)
+            student.drop_path_rate = args.drop_path_rate
+            teacher = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True)
         else:
             student = vits.__dict__[args.arch](
                 patch_size=args.patch_size,
