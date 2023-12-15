@@ -212,8 +212,17 @@ def train_dino(args):
         embed_dim = student.embed_dim
     # otherwise, we check if the architecture is in torchvision models
     elif args.arch in torchvision_models.__dict__.keys():
-        student = torchvision_models.__dict__[args.arch]()
-        teacher = torchvision_models.__dict__[args.arch]()
+        print('entering resnet?')
+        if args.use_pretrained_dino:
+            student = torch.hub.load(
+                "facebookresearch/dino:main", "dino_resnet50", pretrained=True
+            )
+            teacher = torch.hub.load(
+                "facebookresearch/dino:main", "dino_resnet50", pretrained=True
+            )
+        else:
+            student = torchvision_models.__dict__[args.arch]()
+            teacher = torchvision_models.__dict__[args.arch]()
         embed_dim = student.fc.weight.shape[1]
     else:
         print(f"Unknow architecture: {args.arch}")
