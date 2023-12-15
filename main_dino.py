@@ -217,9 +217,11 @@ def train_dino(args):
             student = torch.hub.load(
                 "facebookresearch/dino:main", "dino_resnet50", pretrained=True
             )
+            student.fc = nn.Linear(2048, 1000, bias=True)
             teacher = torch.hub.load(
                 "facebookresearch/dino:main", "dino_resnet50", pretrained=True
             )
+            student.fc = nn.Linear(2048, 1000, bias=True)
             print('wtf')
             print(student)
         else:
@@ -230,6 +232,8 @@ def train_dino(args):
         embed_dim = student.fc.weight.shape[1]
     else:
         print(f"Unknow architecture: {args.arch}")
+
+    print("embed dim: ", embed_dim)
 
     # multi-crop wrapper handles forward with inputs of different resolutions
     student = utils.MultiCropWrapper(student, DINOHead(
