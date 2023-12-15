@@ -186,15 +186,21 @@ def train_dino(args):
 
     # ============ building student and teacher networks ... ============
     # we changed the name DeiT-S for ViT-S to avoid confusions
+    use_pretrained_dino = True
     args.arch = args.arch.replace("deit", "vit")
     print("USING ARCH: ", args.arch)
+    print("USING PRETRAINED DINO: ", use_pretrained_dino)
     # if the network is a Vision Transformer (i.e. vit_tiny, vit_small, vit_base)
     if args.arch in vits.__dict__.keys():
-        student = vits.__dict__[args.arch](
-            patch_size=args.patch_size,
-            drop_path_rate=args.drop_path_rate,  # stochastic depth
-        )
-        teacher = vits.__dict__[args.arch](patch_size=args.patch_size)
+        if use_pretrained_dino:
+            student = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True, patch_size=args.patch_size, drop_path_rate=args.drop_path_rate)
+            teacher = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True, patch_size=args.patch_size)
+        else:
+            student = vits.__dict__[args.arch](
+                patch_size=args.patch_size,
+                drop_path_rate=args.drop_path_rate,  # stochastic depth
+            )
+            teacher = vits.__dict__[args.arch](patch_size=args.patch_size)
         embed_dim = student.embed_dim
     # if the network is a XCiT
     elif args.arch in torch.hub.list("facebookresearch/xcit:main"):
