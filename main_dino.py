@@ -168,10 +168,10 @@ def train_dino(args):
     # Take only the first 100 samples
     # subset_indices = list(range(1000))
     # Specify the number of random samples you want
-    num_random_samples = 10000  # Adjust the number as needed
-    # Generate a random subset of indices
-    subset_indices = random.sample(range(len(dataset)), num_random_samples)
-    dataset = Subset(dataset, subset_indices)
+    # num_random_samples = 10000  # Adjust the number as needed
+    # # Generate a random subset of indices
+    # subset_indices = random.sample(range(len(dataset)), num_random_samples)
+    # dataset = Subset(dataset, subset_indices)
 
     sampler = torch.utils.data.DistributedSampler(dataset, shuffle=True)
     data_loader = torch.utils.data.DataLoader(
