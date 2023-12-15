@@ -53,6 +53,8 @@ def get_args_parser():
                 + torchvision_archs + torch.hub.list("facebookresearch/xcit:main"),
         help="""Name of architecture to train. For quick experiments with ViTs,
         we recommend using vit_tiny or vit_small.""")
+    parser.add_argument('--use_pretrained_dino', type=utils.bool_flag, default=False, help="""Whether or not
+        to use a pretrained DINO model (only for ViT hacky implementation)""")
     parser.add_argument('--patch_size', default=16, type=int, help="""Size in pixels
         of input square patches - default 16 (for 16x16 patches). Using smaller
         values leads to better performance but requires more memory. Applies only
@@ -186,13 +188,12 @@ def train_dino(args):
 
     # ============ building student and teacher networks ... ============
     # we changed the name DeiT-S for ViT-S to avoid confusions
-    use_pretrained_dino = True
     args.arch = args.arch.replace("deit", "vit")
     print("USING ARCH: ", args.arch)
-    print("USING PRETRAINED DINO: ", use_pretrained_dino)
+    print("USING PRETRAINED DINO: ", args.use_pretrained_dino)
     # if the network is a Vision Transformer (i.e. vit_tiny, vit_small, vit_base)
     if args.arch in vits.__dict__.keys():
-        if use_pretrained_dino:
+        if args.use_pretrained_dino:
             student = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True)
             student.drop_path_rate = args.drop_path_rate
             teacher = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16', pretrained=True)
