@@ -13,5 +13,5 @@ sleep 3
 python /projects/skinder@xsede.org/dmist_fl/code/dino/main_dino.py --arch vit_base --use_pretrained_dino True --epochs 20 --warmup_epochs 2 \
     --freeze_last_layer 0 --use_bn_in_head True --norm_last_layer True \
     --data_path /projects/skinder@xsede.org/dmist_fl/data/dmist_preprocessed_npys/ \
-    --output_dir /projects/skinder@xsede.org/dmist_fl/dino_outputs/vit_base_frompretrained_epoch20_freeze0_bn_norm
+    --output_dir /scratch/alpine/skinder@xsede.org/dmist_fl/dino_outputs/vit_base_frompretrained_epoch20_freeze0_bn_norm
 echo "== End =="
