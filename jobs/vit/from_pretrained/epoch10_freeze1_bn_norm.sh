@@ -10,8 +10,8 @@ module load anaconda
 conda activate pytorch_hf
 echo "== Starting! =="
 sleep 3
-python /projects/skinder@xsede.org/dmist_fl/code/dino/main_dino.py --arch vit_base --use_pretrained_dino True --epochs 40 --warmup_epochs 4 \
-    --freeze_last_layer 0 --use_bn_in_head True --norm_last_layer False \
+python /projects/skinder@xsede.org/dmist_fl/code/dino/main_dino.py --arch vit_base --use_pretrained_dino True --epochs 10 --warmup_epochs 4 \
+    --freeze_last_layer 1 --use_bn_in_head True --norm_last_layer True \
     --data_path /scratch/alpine/skinder@xsede.org/dmist_fl/data/datasets/original/central/train_and_val/ \
-    --output_dir /scratch/alpine/skinder@xsede.org/dmist_fl/dino_outputs/vit_base_frompretrained_epoch40_freeze0_bn
+    --output_dir /scratch/alpine/skinder@xsede.org/dmist_fl/dino_outputs/vit_base_frompretrained_epoch40_freeze1_bn_norm
 echo "== End =="
